@@ -1,8 +1,6 @@
 package edu.smith.cs.csc212.p6;
 
-import edu.smith.cs.csc212.p6.errors.BadIndexError;
-import edu.smith.cs.csc212.p6.errors.EmptyListError;
-import edu.smith.cs.csc212.p6.errors.RanOutOfSpaceError;
+import edu.smith.cs.csc212.p6.errors.*;
 
 public class FixedSizeList<T> implements P6List<T> {
 	private Object[] array;
@@ -13,6 +11,7 @@ public class FixedSizeList<T> implements P6List<T> {
 		this.fill = 0;
 	}
 
+	
 	@Override
 	public T removeFront() {
 		return removeIndex(0);
@@ -23,8 +22,8 @@ public class FixedSizeList<T> implements P6List<T> {
 		if (this.size() == 0) {
 			throw new EmptyListError();
 		}
+		T value = this.getIndex(fill-1);
 		fill--;
-		T value = this.getIndex(fill);
 		this.array[fill] = null;
 		return value;
 	}
