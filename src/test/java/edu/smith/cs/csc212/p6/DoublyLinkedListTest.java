@@ -134,4 +134,33 @@ public class DoublyLinkedListTest {
 		Assert.assertEquals("a", data.removeIndex(0));
 		Assert.assertEquals(0, data.size());
 	}
+	
+	/*
+	 * self-implemented tests:
+	 */
+	@Test
+	public void testGetFront() {
+		P6List<String> data = makeFullList();
+		Assert.assertEquals("a", data.getFront());		
+	}
+	@Test
+	public void testGetBack() {
+		P6List<String> data = makeFullList();
+		Assert.assertEquals("d", data.getBack());		
+	}
+	@Test
+	public void testAddIndex() {
+		P6List<String> data = makeFullList();
+		data.addIndex("i", 0);
+		//iabcd
+		Assert.assertEquals(5, data.size());				
+		Assert.assertEquals("i", data.getIndex(0));		
+		data.addIndex("i", 5);
+		//iabcdi
+		Assert.assertEquals(6, data.size());				
+		Assert.assertEquals("i", data.getIndex(5));
+		data.addIndex("i", 3);
+		//iabicdi
+		Assert.assertEquals("i", data.getIndex(3));				
+	}
 }

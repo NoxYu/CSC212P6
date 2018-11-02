@@ -8,8 +8,9 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 	/**
 	 * The start of this list. Node is defined at the bottom of this file.
 	 */
-	Node<T> start;
+	Node<T> start; 
 
+	//O(1)
 	@Override
 	public T removeFront() {
 		checkNotEmpty();
@@ -18,6 +19,7 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		return targetValue;
 	}
 
+	//O(n)
 	@Override
 	public T removeBack() {
 		if(size()==0) {
@@ -38,6 +40,7 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		}
 	}
 
+	//O(n)
 	@Override
 	public T removeIndex(int index) {
 		checkNotEmpty();
@@ -69,11 +72,13 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		return target.value;
 	}
 
+	//O(1)
 	@Override
 	public void addFront(T item) {
 		this.start = new Node<T>(item, start);
 	}
 
+	//O(n)
 	@Override
 	public void addBack(T item) {
 		if(size()==0) {
@@ -88,6 +93,7 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		last.next = added;
 	}
 
+	//O(n)
 	@Override
 	public void addIndex(T item, int index) {
 		if(index==0) {
@@ -111,16 +117,19 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		target.next=added;
 	}
 
+	//O(1)
 	@Override
 	public T getFront() {
 		return start.value;
 	}
 
+	//O(n)
 	@Override
 	public T getBack() {
 		return getIndex(size()-1);
 	}
 
+	//O(n)
 	@Override
 	public T getIndex(int index) {
 		if(index>size()||index<0) {
@@ -138,6 +147,7 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		return target;
 	}
 
+	//O(n)
 	@Override
 	public int size() {
 		int count = 0;
@@ -147,6 +157,7 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		return count;
 	}
 
+	//O(n) - because of the size() method
 	@Override
 	public boolean isEmpty() {
 		if(size()==0) {
@@ -159,6 +170,7 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 	/**
 	 * Helper method to throw the right error for an empty state.
 	 */
+	//O(n) - isEmpty method uses size()method
 	private void checkNotEmpty() {
 		if (this.isEmpty()) {
 			throw new EmptyListError();
@@ -186,6 +198,7 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		 * 
 		 * @param value - the value to put in it.
 		 */
+		//O(1)
 		public Node(T value, Node<T> next) {
 			this.value = value;
 			this.next = next;
@@ -211,15 +224,18 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 		 * This constructor details where to start, given a list.
 		 * @param list - the SinglyLinkedList to iterate or loop over.
 		 */
+		//O(1)
 		public Iter(SinglyLinkedList<T> list) {
 			this.current = list.start;
 		}
 
+		//O(1)
 		@Override
 		public boolean hasNext() {
 			return current != null;
 		}
 
+		//O(1)
 		@Override
 		public T next() {
 			T found = current.value;
@@ -232,6 +248,7 @@ public class SinglyLinkedList<T> implements P6List<T>, Iterable<T> {
 	 * Implement iterator() so that {@code SinglyLinkedList} can be used in a for loop.
 	 * @return an object that understands "next()" and "hasNext()".
 	 */
+	//O(1)
 	public Iterator<T> iterator() {
 		return new Iter<>(this);
 	}

@@ -2,7 +2,7 @@ package edu.smith.cs.csc212.p6;
 
 import edu.smith.cs.csc212.p6.errors.*;
 
-/**
+/** 
  * This is a data structure that has an array inside each node of a Linked List.
  * Therefore, we only make new nodes when they are full. Some remove operations
  * may be easier if you allow "chunks" to be partially filled.
@@ -13,7 +13,10 @@ import edu.smith.cs.csc212.p6.errors.*;
 public class ChunkyLinkedList<T> implements P6List<T> {
 	private int chunkSize;
 	private SinglyLinkedList<FixedSizeList<T>> chunks;
-		
+		 
+	/*
+	 * efficiency: O(1)
+	 */
 	public ChunkyLinkedList(int chunkSize) {
 		this.chunkSize = chunkSize;
 		//chunks.addBack(new FixedSizeList<>(chunkSize));
@@ -25,12 +28,15 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 		chunks.addBack(new FixedSizeList<>(chunkSize));
 	}
 
+	/*
+	 * efficiency: O(n^2)
+	 * method getIndex (uses a for loop) is inside the for loop 
+	 */
 	@Override
 	public T removeFront() {
 		if(isEmpty()) {
 			throw new EmptyListError();
 		}
-		
 		FixedSizeList<T> firstChunk = chunks.getFront();
 		T removed = firstChunk.getFront();
 		//easiest: if there is only one chunk and it is not full
@@ -53,6 +59,7 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 		return removed;
 	}
 
+	//efficiency: O(n) 
 	@Override
 	public T removeBack() {
 		if(isEmpty()) {
@@ -70,6 +77,7 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 		return removed;
 	}
 
+	//O(n^2)
 	@Override
 	public T removeIndex(int index) {
 		if(chunks.getFront().size()==0) {
@@ -106,6 +114,7 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 		return removed;
 	}
 
+	//O(n^2)
 	@Override
 	public void addFront(T item) {
 		if(isEmpty()) {
@@ -155,6 +164,7 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 		}
 	}
 
+	//O(n)
 	@Override
 	public void addBack(T item) {
 		FixedSizeList<T> lastChunk = chunks.getBack();
@@ -169,7 +179,7 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 	}
 	
 	
-	
+	//O(n^2)
 	@Override
 	public void addIndex(T item, int index) {
 		if(index==0) {
@@ -220,17 +230,19 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 		chunks.getBack().addBack(last);
 	}
 	
+	//O(1)
 	@Override
 	public T getFront() {
 		return this.chunks.getFront().getFront();
 	}
 
+	//O(1)
 	@Override
 	public T getBack() {
 		return this.chunks.getBack().getBack();
 	}
 
-
+	//O(n^2)
 	@Override
 	public T getIndex(int index) {
 		if (this.isEmpty()) {
@@ -240,18 +252,17 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 		for (FixedSizeList<T> chunk : this.chunks) {
 			// calculate bounds of this chunk.
 			int end = start + chunk.size();
-			
 			// Check whether the index should be in this chunk:
 			if (start <= index && index < end) {
 				return chunk.getIndex(index - start);
-			}
-			
+			}			
 			// update bounds of next chunk.
 			start = end;
 		}
 		throw new BadIndexError();
 	}
 
+	//O(n^2)
 	@Override
 	public int size() {
 		int total = 0;
@@ -261,6 +272,7 @@ public class ChunkyLinkedList<T> implements P6List<T> {
 		return total;
 	}
 
+	//O(n)
 	@Override
 	public boolean isEmpty() {
 		return this.chunks.size()==0;

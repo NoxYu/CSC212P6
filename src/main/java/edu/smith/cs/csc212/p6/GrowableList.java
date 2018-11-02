@@ -5,18 +5,21 @@ import edu.smith.cs.csc212.p6.errors.*;
 public class GrowableList<T> implements P6List<T> {
 	public static final int START_SIZE = 32;
 	private Object[] array;
-	private int fill;
+	private int fill; 
 	
+	//O(1)
 	public GrowableList() {
 		this.array = new Object[START_SIZE];
 		this.fill = 0;
 	}
 
+	//O(n)
 	@Override
 	public T removeFront() {
 		return removeIndex(0);
 	}
 
+	//O(1)
 	@Override
 	public T removeBack() {
 		if(this.size()==0) {
@@ -28,6 +31,7 @@ public class GrowableList<T> implements P6List<T> {
 		return removed;
 	}
 
+	//O(n)
 	@Override
 	public T removeIndex(int index) {
 		if(this.size()==0) {
@@ -42,6 +46,7 @@ public class GrowableList<T> implements P6List<T> {
 		return removed;
 	}
 
+	//O(n)
 	@Override
 	public void addFront(T item) {
 		if(fill<array.length) {
@@ -61,25 +66,51 @@ public class GrowableList<T> implements P6List<T> {
 		}		
 	}
 
+	//O(n)
 	@Override
 	public void addBack(T item) {
 		// I've implemented part of this for you.
 		if (fill >= this.array.length) { 
-			throw new P6NotImplemented();
+			int newSize=fill*2;
+			Object[] newArray = new Object[newSize];
+			for(int i=0;i<array.length;i++) {
+				newArray[i] = array[i];
+			}
+			newArray[fill++]=item;
+			this.array=newArray;
 		}
 		this.array[fill++] = item;
 	}
-
+	
+	//O(n)
 	@Override
 	public void addIndex(T item, int index) {
-		throw new P6NotImplemented();
+		if(index<0||index>=size()) {
+			throw new BadIndexError();
+		}
+		if (fill >= this.array.length) { 
+			int newSize=fill*2;
+			Object[] newArray = new Object[newSize];
+			for(int i=0;i<=array.length;i++) {
+				if(i<index) {
+					newArray[i]=array[i];
+				}else if(i==index) {
+					newArray[i]=item;
+				}else {
+					newArray[i]=array[i-1];
+				}
+			}
+			this.array=newArray;
+		}
 	}
 	
+	//O(1)
 	@Override
 	public T getFront() {
 		return this.getIndex(0);
 	}
 
+	//O(1)
 	@Override
 	public T getBack() {
 		return this.getIndex(this.fill-1);
@@ -92,15 +123,18 @@ public class GrowableList<T> implements P6List<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
+	//O(1)
 	public T getIndex(int index) {
 		return (T) this.array[index];
 	}
 
+	//O(1)
 	@Override
 	public int size() {
 		return fill;
 	}
 
+	//O(1)
 	@Override
 	public boolean isEmpty() {
 		return fill == 0;

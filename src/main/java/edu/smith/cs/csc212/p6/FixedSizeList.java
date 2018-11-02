@@ -1,22 +1,24 @@
 package edu.smith.cs.csc212.p6;
 
 import edu.smith.cs.csc212.p6.errors.*;
-
+ 
 public class FixedSizeList<T> implements P6List<T> {
 	private Object[] array;
 	private int fill;
 	
+	//O(1)
 	public FixedSizeList(int maximumSize) {
 		this.array = new Object[maximumSize];
 		this.fill = 0;
 	}
 
-	
+	//O(n)
 	@Override
 	public T removeFront() {
 		return removeIndex(0);
 	}
 
+	//O(n)
 	@Override
 	public T removeBack() {
 		if (this.size() == 0) {
@@ -28,6 +30,7 @@ public class FixedSizeList<T> implements P6List<T> {
 		return value;
 	}
 
+	//O(n)
 	@Override
 	public T removeIndex(int index) {
 		if (this.size() == 0) {
@@ -42,11 +45,13 @@ public class FixedSizeList<T> implements P6List<T> {
 		return removed;
 	}
 
+	//O(n)
 	@Override
 	public void addFront(T item) {
 		addIndex(item, 0);		
 	}
 
+	//O(1)
 	@Override
 	public void addBack(T item) {
 		if (fill < array.length) {
@@ -56,6 +61,7 @@ public class FixedSizeList<T> implements P6List<T> {
 		}
 	}
 
+	//O(n)
 	@Override
 	public void addIndex(T item, int index) {
 		if (fill >= array.length) {
@@ -76,6 +82,7 @@ public class FixedSizeList<T> implements P6List<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
+	//O(1)
 	public T getIndex(int index) {
 		if (index < 0 || index >= fill) {
 			throw new BadIndexError();
@@ -83,16 +90,19 @@ public class FixedSizeList<T> implements P6List<T> {
 		return (T) this.array[index];
 	}
 
+	//O(1)
 	@Override
 	public int size() {
 		return this.fill;
 	}
 
+	//O(1)
 	@Override
 	public boolean isEmpty() {
 		return this.fill == 0;
 	}
 
+	//O(n)
 	@Override
 	public T getFront() {
 		if (this.isEmpty()) {
@@ -101,6 +111,7 @@ public class FixedSizeList<T> implements P6List<T> {
 		return this.getIndex(0);
 	}
 
+	//O(n)
 	@Override
 	public T getBack() {
 		if (this.isEmpty()) {

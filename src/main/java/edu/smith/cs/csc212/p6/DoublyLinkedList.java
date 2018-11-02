@@ -1,7 +1,7 @@
 package edu.smith.cs.csc212.p6;
 
 import edu.smith.cs.csc212.p6.errors.*;
-
+ 
 public class DoublyLinkedList<T> implements P6List<T> {
 	private Node<T> start;
 	private Node<T> end;
@@ -9,13 +9,14 @@ public class DoublyLinkedList<T> implements P6List<T> {
 	/**
 	 * A doubly-linked list starts empty.
 	 */
+	//O(1)
 	public DoublyLinkedList() {
 		this.start = null;
 		this.end = null;
 		this.size =0;
 	}
 	
-
+	//O(1)
 	@Override
 	public T removeFront() {
 		checkNotEmpty();
@@ -23,7 +24,8 @@ public class DoublyLinkedList<T> implements P6List<T> {
 		start = start.after;
 		return deleted.value;
 	}
-
+	
+	//O(n)
 	@Override
 	public T removeBack() {
 		checkNotEmpty();
@@ -41,6 +43,7 @@ public class DoublyLinkedList<T> implements P6List<T> {
 		}
 	}
 
+	//O(n)
 	@Override
 	public T removeIndex(int index) {
 		checkNotEmpty();
@@ -89,6 +92,7 @@ public class DoublyLinkedList<T> implements P6List<T> {
 		return target;
 	}
 
+	//O(1)
 	@Override
 	public void addFront(T item) {
 		if(size()==0) {
@@ -101,6 +105,7 @@ public class DoublyLinkedList<T> implements P6List<T> {
 		}
 	}
 
+	//O(n)
 	@Override
 	public void addBack(T item) {
 		if(isEmpty()) {
@@ -118,21 +123,54 @@ public class DoublyLinkedList<T> implements P6List<T> {
 		}
 	}
 
+	//O(n)
 	@Override
 	public void addIndex(T item, int index) {
+		if(index==0) {
+			addFront(item);
+			return;
+		}
+		if(index==size()) {
+			addBack(item);
+			return;
+		}
+		Node<T> post=start;
+		for(int i=0;i<index;i++) {
+			post=post.after;
+		}
+		Node<T> ante=post.before;
+		/*
+		 * the new node is in between ante and post
+		 * the index of the inserted Node will be the same was ante's index now
+		 * so:
+		 * index of post is index
+		 * index of ante is index-1
+		 */
+		Node<T> inserted=new Node<T>(item);
+		inserted.before=ante;
+		inserted.after=post;
+		ante.after=inserted;
+		post.before=inserted;
 		
 	}
 
+	//O(1)
 	@Override
 	public T getFront() {
-		throw new P6NotImplemented();
+		return start.value;
 	}
 
+	//O(n)
 	@Override
 	public T getBack() {
-		throw new P6NotImplemented();
+		Node<T> current = start;
+		while(current.after!=null) {
+			current=current.after;
+		}
+		return current.value;
 	}
 	
+	//O(n)
 	@Override
 	public T getIndex(int index) {
 		checkNotEmpty();
@@ -151,6 +189,7 @@ public class DoublyLinkedList<T> implements P6List<T> {
 		return target.value;
 	}
 
+	//O(n)
 	@Override
 	public int size() {
 		int count = 0;
@@ -161,6 +200,7 @@ public class DoublyLinkedList<T> implements P6List<T> {
 	}
 
 
+	//O(n)
 	@Override
 	public boolean isEmpty() {
 		if(size()==0) {
@@ -170,6 +210,7 @@ public class DoublyLinkedList<T> implements P6List<T> {
 		}
 	}
 	
+	//O(n)
 	private void checkNotEmpty() {
 		if (this.isEmpty()) {
 			throw new EmptyListError();
@@ -199,6 +240,7 @@ public class DoublyLinkedList<T> implements P6List<T> {
 		 * Create a node with no friends.
 		 * @param value - the value to put in it.
 		 */
+		//O(1)
 		public Node(T value) {
 			this.value = value;
 			this.before = null;
